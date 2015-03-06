@@ -1,0 +1,48 @@
+apply plugin: "java"
+apply plugin: "groovy"
+apply plugin: "eclipse"
+apply plugin: "idea"
+apply plugin: "spring-boot"
+apply plugin: "war"
+
+repositories {
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-release" }
+    maven { url "http://repo.spring.io/plugins-release" }
+}
+
+buildscript {
+    repositories {
+        maven { url "https://repo.spring.io/libs-release" }
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.2.1.RELEASE"
+    }
+}
+
+
+dependencies {
+    // Web
+    compile "org.springframework.boot:spring-boot-starter-web"
+    runtime "org.springframework.boot:spring-boot-starter-tomcat"
+    providedCompile "org.apache.tomcat.embed:tomcat-embed-jasper"
+    // DB
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+    compile "mysql:mysql-connector-java:5.1.31"
+    compile "com.h2database:h2:1.2.140"        
+    // Security
+    compile "org.springframework.boot:spring-boot-starter-security"
+    
+    compile "org.hibernate:hibernate-validator"    
+    compile "org.projectlombok:lombok:1.16.0"
+    
+    testCompile "org.springframework.boot:spring-boot-starter-test"
+    compile "org.spockframework:spock-spring:0.7-groovy-2.0"
+}
+
+// for delegate system properties to bootRun
+tasks.withType(org.springframework.boot.gradle.run.BootRunTask) {
+    systemProperties = System.properties
+}
